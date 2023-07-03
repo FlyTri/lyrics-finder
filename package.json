@@ -2,9 +2,14 @@
   "name": "google-lyrics-finder",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint --ext .ts ./src"
   },
   "keywords": [],
   "author": "",
