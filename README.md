@@ -1,13 +1,13 @@
 # lyrics-finder
 
-This repository contains code for retrieving song information and lyrics from Google and Musixmatch. The code is written in TypeScript and uses the JSDOM library for DOM manipulation and axios for making HTTP requests.
+This package contains code for retrieving song information and lyrics from Google and Musixmatch. The code is written in TypeScript and uses the JSDOM library for DOM manipulation and axios for making HTTP requests.
 
 ## Installation
 
 npm:
 
 ```bash
-npm i @flytri/lyrics-finder
+npm install @flytri/lyrics-finder
 ```
 
 yarn:
