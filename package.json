@@ -24,7 +24,6 @@
   "dependencies": {
     "@types/jsdom": "^21.1.1",
     "axios": "^1.4.0",
-    "google-lyrics-finder": "github:flytri/google-lyrics-finder",
     "jsdom": "^22.1.0"
   }
 }
