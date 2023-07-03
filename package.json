@@ -1,0 +1,24 @@
+{
+  "name": "google-lyrics-finder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
+    "eslint": "^8.44.0",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@types/jsdom": "^21.1.1",
+    "axios": "^1.4.0",
+    "jsdom": "^22.1.0"
+  }
+}
