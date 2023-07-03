@@ -22,13 +22,10 @@ function get(dom: JSDOM, querySelect: string) {
 }
 export async function Google(
   name: string,
-  moreInfo: boolean = false,
   language: string = "en"
 ): Promise<Data | null> {
   if (!name || typeof name != "string")
     throw new TypeError("Invalid name was provided");
-  if (moreInfo && typeof moreInfo != "boolean")
-    throw new TypeError("Invalid language was provided");
   if (language && typeof language != "string")
     throw new TypeError("Invalid language was provided");
 
