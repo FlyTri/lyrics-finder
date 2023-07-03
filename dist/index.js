@@ -1,27 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.find = void 0;
+exports.Musixmatch = exports.Google = void 0;
 const tslib_1 = require("tslib");
 const jsdom_1 = require("jsdom");
 const axios_1 = tslib_1.__importDefault(require("axios"));
-function getDOM(name, language) {
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
-        const { data } = yield (0, axios_1.default)("https://google.com/search", {
-            headers: {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
-                Accept: "text/html",
-            },
-            params: { q: `Lyrics ${name}`, lr: `lang_${language}` },
-        });
-        return new jsdom_1.JSDOM(data);
-    });
-}
+const requestOptions = {
+    headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+        Accept: "text/html",
+    },
+};
 function get(dom, querySelect) {
     var _a, _b;
     return (_b = (_a = dom.window.document
         .querySelector(querySelect)) === null || _a === void 0 ? void 0 : _a.textContent) === null || _b === void 0 ? void 0 : _b.split(": ")[1];
 }
-function find(name, moreInfo = false, language = "en") {
+function Google(name, moreInfo = false, language = "en") {
     var _a;
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         if (!name || typeof name != "string")
@@ -30,34 +24,16 @@ function find(name, moreInfo = false, language = "en") {
             throw new TypeError("Invalid language was provided");
         if (language && typeof language != "string")
             throw new TypeError("Invalid language was provided");
-        let dom = yield getDOM(name, language);
+        const { data } = yield (0, axios_1.default)("https://google.com/search", Object.assign(Object.assign({}, requestOptions), { params: { q: `Lyrics ${name}`, lr: `lang_${language}` } }));
+        const dom = new jsdom_1.JSDOM(data);
         const elements = Array.from(dom.window.document.querySelectorAll(".ujudUb"));
         if (!elements.length)
             throw new Error("No result were found");
-        const songwriters = get(dom, ".auw0zb");
-        const title = (_a = dom.window.document.querySelector("div.PZPZlf.ssJ7i.B5dxMb")) === null || _a === void 0 ? void 0 : _a.textContent;
-        let released = get(dom, "div[data-attrid='kc:/music/recording_cluster:release date']");
-        let artist = get(dom, "div[data-attrid='kc:/music/recording_cluster:artist']");
-        let album = get(dom, "div[data-attrid='kc:/music/recording_cluster:first album']");
-        let genres = get(dom, "div[data-attrid='kc:/music/recording_cluster:skos_genre']");
-        if (moreInfo && songwriters && (!released || !artist || !album || !genres)) {
-            dom = yield getDOM(`${songwriters} ${title}`, language);
-            if (!released)
-                released = get(dom, "div[data-attrid='kc:/music/recording_cluster:release date']");
-            if (!artist)
-                artist = get(dom, ".rVusze");
-            if (!album)
-                album = get(dom, "div[data-attrid='kc:/music/recording_cluster:first album']");
-            if (!genres)
-                genres = get(dom, "div[data-attrid='kc:/music/recording_cluster:skos_genre']");
-        }
         return {
-            songwriters,
-            title,
-            released,
-            artist,
-            album,
-            genres,
+            songwriters: get(dom, ".auw0zb"),
+            title: (_a = dom.window.document.querySelector("div.PZPZlf.ssJ7i.B5dxMb")) === null || _a === void 0 ? void 0 : _a.textContent,
+            artist: get(dom, "div[data-attrid='kc:/music/recording_cluster:artist']"),
+            genres: get(dom, "div[data-attrid='kc:/music/recording_cluster:skos_genre']"),
             lyrics: elements
                 .map((_, i) => {
                 const line = Array.from(elements[i].querySelectorAll("span"));
@@ -67,4 +43,32 @@ function find(name, moreInfo = false, language = "en") {
         };
     });
 }
-exports.find = find;
+exports.Google = Google;
+function Musixmatch(name) {
+    var _a;
+    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        if (!name || typeof name != "string")
+            throw new TypeError("Invalid name was provided");
+        let data = yield (0, axios_1.default)(`https://musixmatch.com/search/${name}`, requestOptions).then((res) => res.data);
+        let dom = new jsdom_1.JSDOM(data);
+        let element = dom.window.document.querySelector(".title");
+        let [title, artist, endpoint] = [
+            element === null || element === void 0 ? void 0 : element.textContent,
+            (_a = dom.window.document.querySelector(".artist")) === null || _a === void 0 ? void 0 : _a.textContent,
+            element === null || element === void 0 ? void 0 : element.getAttribute("href"),
+        ];
+        if (!endpoint)
+            throw new Error("No result were found");
+        data = yield (0, axios_1.default)(`https://musixmatch.com`.concat(endpoint), requestOptions).then((res) => res.data);
+        dom = new jsdom_1.JSDOM(data);
+        const elements = Array.from(dom.window.document.querySelectorAll(".lyrics__content__ok"));
+        return {
+            songwriters: get(dom, ".mxm-lyrics__copyright").replace("\n", ""),
+            title,
+            artist,
+            genres: undefined,
+            lyrics: elements.map((_, i) => elements[i].textContent).join("\n\n"),
+        };
+    });
+}
+exports.Musixmatch = Musixmatch;
