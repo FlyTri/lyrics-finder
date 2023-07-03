@@ -1,6 +1,6 @@
 {
   "name": "@flytri/lyrics-finder",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "This package contains code for retrieving song information and lyrics from Google and Musixmatch. The code is written in TypeScript and uses the JSDOM library for DOM manipulation and axios for making HTTP requests",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

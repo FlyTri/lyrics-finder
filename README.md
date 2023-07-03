@@ -21,9 +21,9 @@ yarn add @flytri/lyrics-finder
 ```js
 const { Google, Musixmatch } = require("@flytri/lyrics-finder");
 
-Google("Hai phút hơn", "vi").then(console.log);
+Google("2 phút hơn", "vi").then(console.log);
 // and
-Musixmatch("Hai phút hơn").then(console.log);
+Musixmatch("2 phút hơn").then(console.log);
 ```
 
 ## License

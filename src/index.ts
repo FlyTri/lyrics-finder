@@ -81,7 +81,7 @@ export async function Musixmatch(name: string): Promise<Data> {
     dom.window.document.querySelectorAll(".lyrics__content__ok")
   );
   return {
-    songwriters: get(dom, ".mxm-lyrics__copyright").replace("\n", ""),
+    songwriters: get(dom, ".mxm-lyrics__copyright")?.replace("\n", ""),
     title,
     artist,
     genres: undefined,

@@ -1,2 +1,2 @@
-import { Google, Musixmatch } from "..";
-Musixmatch("Hai phút hơn").then(console.log)
+import { Google } from "..";
+Google("2 phút hơn").then(console.log);
