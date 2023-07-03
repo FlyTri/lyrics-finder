@@ -1,7 +1,7 @@
 {
-  "name": "lyrics-finder",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@flytri/lyrics-finder",
+  "version": "1.0.1",
+  "description": "This repository contains code for retrieving song information and lyrics from Google and Musixmatch. The code is written in TypeScript and uses the JSDOM library for DOM manipulation and axios for making HTTP requests",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -11,7 +11,13 @@
     "build": "tsc",
     "lint": "eslint --ext .ts ./src"
   },
-  "keywords": [],
+  "keywords": [
+    "lyric",
+    "lyrics",
+    "lyric-finder",
+    "lyrics-finder",
+    "flytri"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {

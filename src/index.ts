@@ -12,6 +12,7 @@ type Data = {
   title: string | undefined;
   artist: string | undefined;
   genres: string | undefined;
+  source: string | undefined;
   lyrics: string | undefined;
 };
 
@@ -46,6 +47,7 @@ export async function Google(
       dom,
       "div[data-attrid='kc:/music/recording_cluster:skos_genre']"
     ),
+    source: get(dom, ".j04ED"),
     lyrics: elements
       .map((_, i) => {
         const line = Array.from(elements[i].querySelectorAll("span"));
@@ -82,6 +84,7 @@ export async function Musixmatch(name: string): Promise<Data | null> {
     title,
     artist,
     genres: undefined,
+    source: undefined,
     lyrics: elements.map((_, i) => elements[i].textContent).join("\n\n"),
   };
 }
