@@ -16,7 +16,7 @@ function get(dom, querySelect) {
         .querySelector(querySelect)) === null || _a === void 0 ? void 0 : _a.textContent) === null || _b === void 0 ? void 0 : _b.split(": ")[1];
 }
 function Google(name, language = "en") {
-    var _a;
+    var _a, _b;
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         if (!name || typeof name != "string")
             throw new TypeError("Invalid name was provided");
@@ -32,7 +32,10 @@ function Google(name, language = "en") {
             title: (_a = dom.window.document.querySelector("div.PZPZlf.ssJ7i.B5dxMb")) === null || _a === void 0 ? void 0 : _a.textContent,
             artist: get(dom, "div[data-attrid='kc:/music/recording_cluster:artist']"),
             genres: get(dom, "div[data-attrid='kc:/music/recording_cluster:skos_genre']"),
-            source: get(dom, ".j04ED"),
+            sources: [
+                "Google",
+                (_b = dom.window.document.querySelector("span.S4TQId")) === null || _b === void 0 ? void 0 : _b.textContent,
+            ].filter(Boolean),
             lyrics: elements
                 .map((_, i) => {
                 const line = Array.from(elements[i].querySelectorAll("span"));
@@ -50,8 +53,8 @@ function Musixmatch(name) {
             throw new TypeError("Invalid name was provided");
         let data = yield (0, axios_1.default)(`https://musixmatch.com/search/${name}`, requestOptions).then((res) => res.data);
         let dom = new jsdom_1.JSDOM(data);
-        let element = dom.window.document.querySelector(".title");
-        let [title, artist, endpoint] = [
+        const element = dom.window.document.querySelector(".title");
+        const [title, artist, endpoint] = [
             element === null || element === void 0 ? void 0 : element.textContent,
             (_a = dom.window.document.querySelector(".artist")) === null || _a === void 0 ? void 0 : _a.textContent,
             element === null || element === void 0 ? void 0 : element.getAttribute("href"),
@@ -66,7 +69,7 @@ function Musixmatch(name) {
             title,
             artist,
             genres: undefined,
-            source: undefined,
+            sources: [],
             lyrics: elements.map((_, i) => elements[i].textContent).join("\n\n"),
         };
     });

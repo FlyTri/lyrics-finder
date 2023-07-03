@@ -21,9 +21,11 @@ yarn add @flytri/lyrics-finder
 ```js
 const { Google, Musixmatch } = require("@flytri/lyrics-finder");
 
-Google("2 phút hơn").then(console.log);
-Musixmatch("2 phút hơn").then(console.log);
+Google("Hai phút hơn", "vi").then(console.log);
+// and
+Musixmatch("Hai phút hơn").then(console.log);
 ```
 
 ## License
+
 This code is provided under the **MIT License**. Feel free to modify and use it in your projects.

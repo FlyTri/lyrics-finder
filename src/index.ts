@@ -1,5 +1,14 @@
 import { JSDOM } from "jsdom";
 import axios from "axios";
+type Data = {
+  songwriters: string | undefined;
+  title: string | undefined;
+  artist: string | undefined;
+  genres: string | undefined;
+  sources: string[];
+  lyrics: string | undefined;
+};
+
 const requestOptions = {
   headers: {
     "User-Agent":
@@ -7,24 +16,13 @@ const requestOptions = {
     Accept: "text/html",
   },
 };
-type Data = {
-  songwriters: string | undefined;
-  title: string | undefined;
-  artist: string | undefined;
-  genres: string | undefined;
-  source: string | undefined;
-  lyrics: string | undefined;
-};
 
 function get(dom: JSDOM, querySelect: string) {
   return dom.window.document
     .querySelector(querySelect)
     ?.textContent?.split(": ")[1];
 }
-export async function Google(
-  name: string,
-  language: string = "en"
-): Promise<Data | null> {
+export async function Google(name: string, language = "en"): Promise<Data> {
   if (!name || typeof name != "string")
     throw new TypeError("Invalid name was provided");
   if (language && typeof language != "string")
@@ -47,7 +45,10 @@ export async function Google(
       dom,
       "div[data-attrid='kc:/music/recording_cluster:skos_genre']"
     ),
-    source: get(dom, ".j04ED"),
+    sources: [
+      "Google",
+      dom.window.document.querySelector("span.S4TQId")?.textContent,
+    ].filter(Boolean),
     lyrics: elements
       .map((_, i) => {
         const line = Array.from(elements[i].querySelectorAll("span"));
@@ -56,7 +57,7 @@ export async function Google(
       .join("\n\n"),
   };
 }
-export async function Musixmatch(name: string): Promise<Data | null> {
+export async function Musixmatch(name: string): Promise<Data> {
   if (!name || typeof name != "string")
     throw new TypeError("Invalid name was provided");
   let data = await axios(
@@ -64,8 +65,8 @@ export async function Musixmatch(name: string): Promise<Data | null> {
     requestOptions
   ).then((res) => res.data);
   let dom = new JSDOM(data);
-  let element = dom.window.document.querySelector(".title");
-  let [title, artist, endpoint] = [
+  const element = dom.window.document.querySelector(".title");
+  const [title, artist, endpoint] = [
     element?.textContent,
     dom.window.document.querySelector(".artist")?.textContent,
     element?.getAttribute("href"),
@@ -84,7 +85,7 @@ export async function Musixmatch(name: string): Promise<Data | null> {
     title,
     artist,
     genres: undefined,
-    source: undefined,
+    sources: [],
     lyrics: elements.map((_, i) => elements[i].textContent).join("\n\n"),
   };
 }
