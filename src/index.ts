@@ -63,19 +63,22 @@ export async function find(
   );
   if (moreInfo && songwriters && (!released || !artist || !album || !genres)) {
     dom = await getDOM(`${songwriters} ${title}`, language);
-    released = get(
-      dom,
-      "div[data-attrid='kc:/music/recording_cluster:release date']"
-    );
-    artist = get(dom, ".rVusze");
-    album = get(
-      dom,
-      "div[data-attrid='kc:/music/recording_cluster:first album']"
-    );
-    genres = get(
-      dom,
-      "div[data-attrid='kc:/music/recording_cluster:skos_genre']"
-    );
+    if (!released)
+      released = get(
+        dom,
+        "div[data-attrid='kc:/music/recording_cluster:release date']"
+      );
+    if (!artist) artist = get(dom, ".rVusze");
+    if (!album)
+      album = get(
+        dom,
+        "div[data-attrid='kc:/music/recording_cluster:first album']"
+      );
+    if (!genres)
+      genres = get(
+        dom,
+        "div[data-attrid='kc:/music/recording_cluster:skos_genre']"
+      );
   }
 
   return {
