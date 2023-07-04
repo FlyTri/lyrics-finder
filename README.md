@@ -22,7 +22,7 @@ yarn add @flytri/lyrics-finder
 const { Google, Musixmatch } = require("@flytri/lyrics-finder");
 
 Google("2 phút hơn", "vi").then(console.log);
-// and
+// or
 Musixmatch("2 phút hơn").then(console.log);
 ```
 

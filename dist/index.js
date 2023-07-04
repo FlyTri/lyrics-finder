@@ -47,7 +47,7 @@ function Google(name, language = "en") {
 }
 exports.Google = Google;
 function Musixmatch(name) {
-    var _a;
+    var _a, _b;
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         if (!name || typeof name != "string")
             throw new TypeError("Invalid name was provided");
@@ -65,7 +65,7 @@ function Musixmatch(name) {
         dom = new jsdom_1.JSDOM(data);
         const elements = Array.from(dom.window.document.querySelectorAll(".lyrics__content__ok"));
         return {
-            songwriters: get(dom, ".mxm-lyrics__copyright").replace("\n", ""),
+            songwriters: (_b = get(dom, ".mxm-lyrics__copyright")) === null || _b === void 0 ? void 0 : _b.replace("\n", ""),
             title,
             artist,
             genres: undefined,
