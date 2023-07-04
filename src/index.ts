@@ -85,7 +85,7 @@ export async function Musixmatch(name: string): Promise<Data> {
     title,
     artist,
     genres: undefined,
-    sources: [],
+    sources: ["Musixmatch"],
     lyrics: elements.map((_, i) => elements[i].textContent).join("\n\n"),
   };
 }

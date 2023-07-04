@@ -69,7 +69,7 @@ function Musixmatch(name) {
             title,
             artist,
             genres: undefined,
-            sources: [],
+            sources: ["Musixmatch"],
             lyrics: elements.map((_, i) => elements[i].textContent).join("\n\n"),
         };
     });
