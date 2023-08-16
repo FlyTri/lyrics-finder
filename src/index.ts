@@ -1,18 +1,11 @@
 import { JSDOM } from "jsdom";
 import axios from "axios";
-type Data = {
-  songwriters: string | undefined;
-  title: string | undefined;
-  artist: string | undefined;
-  genres: string | undefined;
-  sources: string[];
-  lyrics: string | undefined;
-};
+import { Data } from "../typings";
 
 const requestOptions = {
   headers: {
     "User-Agent":
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
     Accept: "text/html",
   },
 };
